@@ -1,2 +1,1 @@
 # random-bitmap
-# random-bitmap
