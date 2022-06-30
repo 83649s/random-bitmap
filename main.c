@@ -1,29 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define HEIGHT 100
-#define WIDTH 100
+#define COLORWIDTH 255 
+
+int* getResolution(void);
 
 int main(void) {
-    FILE *output = fopen("./output.pbm", "wb");
-    char *magicNumber = "P1";
+    int *screenResolution = getResolution();
+    int width = screenResolution[0];
+    int height = screenResolution[1];
+    int color = screenResolution[2];
+
+
+    FILE *output = fopen("./output.pgm", "wb");
+
+    char *magicNumber = malloc(sizeof(char) * 2);
+    if (color == 1) {
+        magicNumber = "P3";
+    }
+    else {
+        magicNumber = "P2";
+    }
+
     fprintf(output, "%s\n", magicNumber);
-    
+
     char *heightWidthIndicator = malloc(sizeof(char) * 100);
-    sprintf(heightWidthIndicator, "%i %i", HEIGHT, WIDTH);
+    sprintf(heightWidthIndicator, "%i %i", width, height);
 
     fprintf(output, "%s\n", heightWidthIndicator);
-    for (int j = 0; j < HEIGHT; ++j) {
-        char* row = malloc((sizeof(char) * WIDTH)); 
-        for (int i = 0; i < WIDTH; ++i) {
-            // Ascii = +48 for integers 
-            row[i] = (char) (rand() % 2) + 48;
-        }
 
-        fprintf(output, "%s", row);
-        free(row);
+    fprintf(output, "%i\n", COLORWIDTH);
+
+    if (color == 1) {
+        height *= 3;
+    } 
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            fprintf(output, "%i", rand() % COLORWIDTH);
+            if (j != width - 1) {
+                fprintf(output, "%c", ' ');
+            }
+        }
         fprintf(output, "\n");
     }
     fclose(output);
     return 0;
+}
+
+
+int* getResolution(void) {
+    int vertical, horizontal;
+    char color[2];
+    int* resolution = malloc(sizeof(int) * 3);
+    printf("Horizontal resolution: ");
+    scanf("%i", &horizontal);
+
+    printf("Vertical resolution: ");
+    scanf("%i", &vertical);
+
+    printf("Color y/n: ");
+    scanf("%s", color);
+
+    resolution[0] = horizontal;
+    resolution[1] = vertical;
+
+    if (color[0] == 'y' || color[0] == 'Y') {
+        resolution[2] = 1;
+    }
+    else {
+        resolution[2] = 0;
+    }
+
+    return resolution;
 }
