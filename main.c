@@ -43,6 +43,8 @@ int main(void) {
         }
         fprintf(output, "\n");
     }
+    free(magicNumber);
+    free(heightWidthIndicatora);
     fclose(output);
     return 0;
 }
