@@ -9,12 +9,12 @@ int main(void) {
     char *magicNumber = "P1";
     fprintf(output, "%s\n", magicNumber);
     
-    char *heightWidthIndicator;
+    char *heightWidthIndicator = malloc(sizeof(char) * 100);
     sprintf(heightWidthIndicator, "%i %i", HEIGHT, WIDTH);
 
     fprintf(output, "%s\n", heightWidthIndicator);
     for (int j = 0; j < HEIGHT; ++j) {
-        char* row = malloc(sizeof(char) * WIDTH); 
+        char* row = malloc((sizeof(char) * WIDTH)); 
         for (int i = 0; i < WIDTH; ++i) {
             // Ascii = +48 for integers 
             row[i] = (char) (rand() % 2) + 48;
@@ -24,7 +24,6 @@ int main(void) {
         free(row);
         fprintf(output, "\n");
     }
-    
-    fclose(output);  
+    fclose(output);
     return 0;
 }
