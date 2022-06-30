@@ -44,7 +44,8 @@ int main(void) {
         fprintf(output, "\n");
     }
     free(magicNumber);
-    free(heightWidthIndicatora);
+    free(heightWidthIndicator);
+    
     fclose(output);
     return 0;
 }
